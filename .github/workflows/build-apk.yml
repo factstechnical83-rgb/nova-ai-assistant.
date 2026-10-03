@@ -26,10 +26,9 @@ jobs:
           channel: 'stable'
           cache: true
 
-      # Missing Android files ko modern Flutter v2 embedding ke sath auto-generate karega
       - name: Recreate Android Project Scaffolding
         run: |
-          flutter create --platforms=android --org com.example .
+          flutter create --project-name nova_ai --platforms=android --org com.example .
 
       - name: Get Dependencies
         run: flutter pub get
