@@ -30,8 +30,12 @@ jobs:
         run: |
           flutter create --project-name nova_ai --platforms=android --org com.example .
 
-      - name: Ensure Android SDK 34 in app build.gradle
+      - name: Configure Kotlin and Android SDK Versions
         run: |
+          # 1. Root build.gradle me Kotlin version 1.9.20 set karein
+          sed -i 's/ext.kotlin_version = .*/ext.kotlin_version = '\''1.9.20'\''/g' android/build.gradle
+
+          # 2. compileSdkVersion aur targetSdkVersion 34 set karein
           sed -i 's/compileSdkVersion flutter.compileSdkVersion/compileSdkVersion 34/g' android/app/build.gradle
           sed -i 's/targetSdkVersion flutter.targetSdkVersion/targetSdkVersion 34/g' android/app/build.gradle
 
