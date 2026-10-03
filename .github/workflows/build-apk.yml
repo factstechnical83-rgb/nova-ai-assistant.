@@ -30,7 +30,7 @@ jobs:
         run: |
           flutter create --project-name nova_ai --platforms=android --org com.example .
 
-      - name: Configure Kotlin in settings.gradle and build.gradle
+      - name: Configure Kotlin and Android SDK Versions
         run: |
           # 1. settings.gradle me Kotlin plugin version 1.9.20 update karein
           sed -i 's/id "org.jetbrains.kotlin.android" version "[^"]*"/id "org.jetbrains.kotlin.android" version "1.9.20"/g' android/settings.gradle || true
@@ -38,9 +38,10 @@ jobs:
           # 2. Agar puraana buildscript ho to wahan bhi update karein
           sed -i 's/ext.kotlin_version = .*/ext.kotlin_version = '\''1.9.20'\''/g' android/build.gradle || true
 
-          # 3. Android SDK 34 configure karein
+          # 3. Android SDK versions configure karein (minSdk 21 fix)
           sed -i 's/compileSdkVersion flutter.compileSdkVersion/compileSdkVersion 34/g' android/app/build.gradle
           sed -i 's/targetSdkVersion flutter.targetSdkVersion/targetSdkVersion 34/g' android/app/build.gradle
+          sed -i 's/minSdkVersion flutter.minSdkVersion/minSdkVersion 21/g' android/app/build.gradle
 
       - name: Get Dependencies
         run: flutter pub get
