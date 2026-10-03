@@ -1,0 +1,19 @@
+name: nova_ai
+description: Sci-Fi Voice Assistant powered by Google Gemini.
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  google_generative_ai: ^0.4.6
+  flutter_tts: ^4.2.2
+  speech_to_text: ^7.0.0
+  permission_handler: ^11.3.1
+
+flutter:
+  uses-material-design: true
+  
