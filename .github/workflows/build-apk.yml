@@ -30,11 +30,20 @@ jobs:
         run: |
           flutter create --project-name nova_ai --platforms=android --org com.example .
 
-      - name: Fix Plugin Gradle & SDK Incompatibilities
+      - name: Configure Repositories and Fix Plugin Gradle
         run: |
-          cat << 'EOF' >> android/build.gradle
+          cat << 'EOF' > android/build.gradle
+          allprojects {
+              repositories {
+                  google()
+                  maven { url "https://repo1.maven.org/maven2" }
+                  mavenCentral()
+              }
+          }
 
+          rootProject.buildDir = "../build"
           subprojects {
+              project.buildDir = "${rootProject.buildDir}/${project.name}"
               afterEvaluate { project ->
                   if (project.hasProperty("android")) {
                       android {
@@ -46,6 +55,13 @@ jobs:
                       }
                   }
               }
+          }
+          subprojects {
+              project.evaluationDependsOn(":app")
+          }
+
+          tasks.register("clean", Delete) {
+              delete rootProject.buildDir
           }
           EOF
 
