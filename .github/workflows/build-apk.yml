@@ -30,6 +30,25 @@ jobs:
         run: |
           flutter create --project-name nova_ai --platforms=android --org com.example .
 
+      - name: Fix Plugin Gradle & SDK Incompatibilities
+        run: |
+          cat << 'EOF' >> android/build.gradle
+
+          subprojects {
+              afterEvaluate { project ->
+                  if (project.hasProperty("android")) {
+                      android {
+                          compileSdkVersion 34
+                          defaultConfig {
+                              minSdkVersion 21
+                              targetSdkVersion 34
+                          }
+                      }
+                  }
+              }
+          }
+          EOF
+
       - name: Get Dependencies
         run: flutter pub get
 
@@ -43,4 +62,3 @@ jobs:
         with:
           name: Nova-AI-Release-APK
           path: build/app/outputs/flutter-apk/app-release.apk
-          
